@@ -1,5 +1,8 @@
 # ChangeLog
 
+## V 0.0.56.1
+Update setup.py to pyproject.toml
+
 ## V 0.0.55
 Bugfix: multiple subgraphs leads to only showing lates subgraph
 

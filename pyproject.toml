@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name ='QGraphViz'
+  
+version='0.0.56'
+authors = [
+    {name = "Saifeddine ALOUI", email = "aloui.saifeddine@gmail.com"},
+    {name= "Lu Schoevaars", email = "lu@schoevaars.eu"}
+]
+description="A PyQt5 widget to manipulate (build, render, interact, load and save) Graphviz graphs"
+readme="README.md"
+requires-python=">=3.9"
+license = {file = "LICENSE"}
+
+keywords = ["PyQt5","graphviz","dot","gui"]
+
+dependencies = ["PyQt5"]
+
+# https://pypi.org/classifiers/
+classifiers=[
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+
+[project.urls]
+# Homepage = "https://github.com/BlueRains/QGraphViz" # Needs to be created
+# Documentation = "https://github.com/BlueRains/QGraphViz" # Needs to be created
+Repository = "https://github.com/BlueRains/QGraphViz"
+Issues = "https://github.com/BlueRains/QGraphViz"
+Changelog = "https://github.com/BlueRains/QGraphViz/blob/master/ChangeLog.md"
+
+[tool]
+
+[tool.setuptools]
