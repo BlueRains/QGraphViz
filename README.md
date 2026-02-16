@@ -25,7 +25,7 @@ Build python pyQT5 based QWidget that can visualize graphs and allow realtime in
 
 ### Fork Objective
 
-- [ ] Use pipenv for easy development
+- [x] Use pipenv for easy development
 - [ ] Update the codebase to python 3.9+, using pyqt6.
 - [ ] Rename to indicate it uses pyqt6
 - [ ] Seperate GUI and graph creation
