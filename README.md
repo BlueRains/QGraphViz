@@ -1,4 +1,5 @@
-﻿# QGraphViz
+﻿
+# QGraphViz
 
 A PyQT based GraphViz builder/renderer (100% opensource)
 
@@ -20,6 +21,16 @@ So since I didn't find any package out there that satifies my needs, I decided t
 ## Objective
 
 Build python pyQT5 based QWidget that can visualize graphs and allow realtime interaction with graphs add edges and nodes, change attributes ...
+
+
+### Fork Objective
+
+- [ ] Use pipenv for easy development
+- [ ] Update the codebase to python 3.9+, using pyqt6.
+- [ ] Update the setup.py to be pyproject.toml based, as, while setup.py is not deprecated, it is not recommended
+- [ ] Follow community guidelines for naming of variables, files, etc.
+
+
 
 ## Requirements
 
