@@ -1,6 +1,11 @@
 # ChangeLog
 
-## V 0.0.56.dev1
+## V 0.0.56
+
+### dev2
+Added Pipfile (pipenv) for easy editing
+
+### dev1
 Update setup.py to pyproject.toml
 
 ## V 0.0.55
