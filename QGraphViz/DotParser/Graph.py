@@ -50,11 +50,11 @@ class Graph(Node):
 
     def findNode(self, node_name):
         for node in self.nodes:
-            if(node.name==node_name):
+            if node.name==node_name:
                 return node
-            if(type(node)==Graph):
+            if isinstance(node, Graph):
                 nd = node.findNode(node_name)
-                if(nd!=None):
+                if nd is not None:
                     return nd
         return None
 
@@ -79,7 +79,7 @@ class Graph(Node):
         self.kwargs = graph_dic["kwargs"]
         self.nodes=[]
         for node in graph_dic["nodes"]:
-            if("graph_type" in node.keys()):
+            if "graph_type" in node.keys():
                 n = Graph(node["name"], self, **node["kwargs"]).fromDICT(node)
                 self.nodes.append(n)
             else:
@@ -113,9 +113,9 @@ class Graph(Node):
                 x=x_
             if y_<y :
                 y=y_
-            if(x+w<x_+w_):
+            if x+w<x_+w_:
                 w=x_+w_-x
-            if(y+h<y_+h_):
+            if y+h<y_+h_:
                 h=y_+h_-y 
         return x,y,w,h
 

@@ -32,42 +32,42 @@ class Dot(LayoutEngine):
 
     def process_size(self,n):
         # If this node is a subgraph, then process children 
-        if type(n)==Graph:
+        if isinstance(n, Graph):
             for nn in n.nodes:
                 self.process_size(nn)
 
-        if("label" in n.kwargs.keys()):
+        if "label" in n.kwargs.keys():
             if ("size" in n.kwargs.keys()):
                 width = n.kwargs["size"][0]
                 height = n.kwargs["size"][1]
-            elif(n.kwargs["label"]!=""):
+            elif n.kwargs["label"]!="":
                 rect = self.fm.boundingRect(n.kwargs["label"])
                 width=rect.width()+self.margins[0]
                 height=rect.height()+self.margins[1]
         # If there is a special shape, then process it
-        if("shape" in n.kwargs.keys()):
+        if "shape" in n.kwargs.keys():
             w=0
             h=0
             image = None
-            if("," in n.kwargs["shape"]): # if there is a , in the shape, the first part is the path, then width, then height
+            if "," in n.kwargs["shape"]: # if there is a , in the shape, the first part is the path, then width, then height
                 img_params = n.kwargs["shape"].split(",")
                 if len(img_params)==3:# img:width:height
                     img_path = img_params[0]
                     w =  int(img_params[1])
                     h =  int(img_params[2])
                     img_path2 = os.path.join(os.path.dirname(self.current_path),img_path)
-                    if(os.path.isfile(img_path)):
+                    if os.path.isfile(img_path):
                         image = QImage(img_path)
-                    elif(os.path.isfile(img_path2)):
+                    elif os.path.isfile(img_path2):
                         image = QImage(img_path2)
             else:
                 img_path = n.kwargs["shape"]
                 img_path2 = os.path.join(os.path.dirname(self.current_path),img_path)
-                if(os.path.isfile(img_path)):
+                if os.path.isfile(img_path):
                     image = QImage(img_path)
                     w =  image.size().width()
                     h =  image.size().height()
-                elif(os.path.isfile(img_path2)):
+                elif os.path.isfile(img_path2):
                     image = QImage(img_path2)
                     w =  image.size().width()
                     h =  image.size().height()
@@ -79,7 +79,7 @@ class Dot(LayoutEngine):
             width=self.default_node_width
             height=self.default_node_height
 
-        if(type(n)==Graph and self.show_subgraphs):
+        if isinstance(n, Graph) and self.show_subgraphs:
             n.depth_x_pos=[0]
             for nn in n.nodes:
                 self.process(nn, n, 0, len(n.nodes), depth=0)
@@ -97,7 +97,7 @@ class Dot(LayoutEngine):
 
     def process(self, n, graph, index=0, nb_brothers=0, depth=0, stage=0):
         n.processed+=1
-        if("pos" in n.kwargs):
+        if "pos" in n.kwargs:
             n.pos[0]=n.kwargs["pos"][0]
             n.pos[1]=n.kwargs["pos"][1]
             n.size[0]=n.kwargs["size"][0]
@@ -135,9 +135,9 @@ class Dot(LayoutEngine):
             for edg in n.in_edges:
                 if (edg.source.processed==0):
                     self.process(edg.source, graph)
-                if(n.parent_graph == edg.source.parent_graph):
+                if n.parent_graph == edg.source.parent_graph:
                     x += edg.source.pos[0]
-                    if(y<edg.source.pos[1]+edg.source.size[1]/2+height/2+self.default_min_nodes_dist):
+                    if y<edg.source.pos[1]+edg.source.size[1]/2+height/2+self.default_min_nodes_dist:
                         y = edg.source.pos[1]+edg.source.size[1]/2+height/2+self.default_min_nodes_dist
             x/=len(n.in_edges)
 
@@ -148,7 +148,7 @@ class Dot(LayoutEngine):
             if oe.dest.processed<20:
                 self.process(oe.dest, graph, i,len(n.out_edges))
 
-        if(type(n)==Graph and self.show_subgraphs):
+        if isinstance(n, Graph) and self.show_subgraphs:
             n.depth_x_pos=[0]
             for nn in n.nodes:
                 self.process(nn, n, 0, len(n.nodes), depth=depth)
@@ -162,11 +162,11 @@ class Dot(LayoutEngine):
             self.process_size(n)
 
         for i,n in enumerate(graph.nodes):
-            if(n.processed<3):
+            if n.processed<3:
                 self.process(n, graph)
         """
         for n in graph.nodes: 
-            if(n.pos[0]<n.size[0]/2):
+            if n.pos[0]<n.size[0]/2:
                 for node in graph.nodes:
                     node.pos[0]+=(n.size[0]/2)-n.pos[0]
         """

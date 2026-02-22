@@ -175,7 +175,7 @@ class DotParser():
         while len(data)>0:
             lines = data.split("\n",1)
             line = lines[0].strip()
-            if(len(lines)>=2):
+            if len(lines)>=2:
                 data=lines[1]
             else:
                 data=""
@@ -211,12 +211,12 @@ class DotParser():
                     
                 elif self.isNode_line(lines[0]):
                     params, params_start_idx, params_end_index =self.find_params(lines[0])
-                    if(params is not None):
+                    if params is not None:
                         subname = lines[0][0:params_start_idx].strip()
                     else:
                         subname = lines[0].strip()
                     node = Node(subname, graph)
-                    if(params is not None):
+                    if params is not None:
                         node.kwargs = params
                     graph.nodes.append(node)
                 elif self.isEdge_line(lines[0], connection_sign):
@@ -225,16 +225,16 @@ class DotParser():
                     source_node_name = lines[0][:link_idx].strip()
                     params, params_start_idx, params_end_index =self.find_params(lines[0])
                     
-                    if(params is not None):
+                    if params is not None:
                         dest_node_name = lines[0][link_idx+3:params_start_idx].strip()
                     else:
                         dest_node_name = lines[0][link_idx+3:].strip()
 
                     source_node  = graph.getNodeByName(source_node_name)
                     dest_node  = graph.getNodeByName(dest_node_name)
-                    if(source_node is not None and dest_node is not None):
+                    if source_node is not None and dest_node is not None:
                         edge = Edge(source_node, dest_node)
-                        if(params is None):
+                        if params is None:
                             edge.kwargs={}
                         else:
                             edge.kwargs=params
@@ -273,7 +273,7 @@ class DotParser():
         Fills a gv file with data from the graph
         """
         for node in graph.nodes:
-            if(type(node)==Graph):
+            if isinstance(node, Graph):
                 fi.write("    subgraph cluster_{}".format(node.name))
                 fi.write("{\n")
                 fi.write("\n".join(["{}={}".format(k,v) for k,v in node.kwargs.items()]))
@@ -283,7 +283,7 @@ class DotParser():
             else:
                 fi.write("    {} [{}]\n".format(node.name, ",".join(["{}={}".format(k,v) for k,v in node.kwargs.items()])))
         for edge in graph.edges:
-            if(not edge.kwargs):
+            if not edge.kwargs:
                 fi.write("    {} {} {}\n".format(edge.source.name, connection_sign, edge.dest.name))
             else:
                 fi.write("    {} {} {} [{}]\n".format(edge.source.name, connection_sign, edge.dest.name, ",".join(["{}={}".format(k,v) for k,v in edge.kwargs.items()])))

@@ -149,7 +149,7 @@ class QGraphViz_Core(QWidget):
         If called, the nodes position can be recomputed in the future
         """
         for node in self.engine.graph.nodes:
-            if("pos" in node.kwargs):
+            if "pos" in node.kwargs:
                 del node.kwargs["pos"]
                 del node.kwargs["size"]
 
@@ -179,7 +179,7 @@ class QGraphViz_Core(QWidget):
         """
         edge = Edge(source, dest)
         edge.kwargs=kwargs
-        if(source.parent_graph == dest.parent_graph):
+        if source.parent_graph == dest.parent_graph:
             source.parent_graph.edges.append(edge)
         else:
             self.engine.graph.edges.append(edge)
@@ -195,10 +195,10 @@ class QGraphViz_Core(QWidget):
 
     def removeNode(self, node):
         graph = node.parent_graph
-        if(node in graph.nodes):
+        if node in graph.nodes:
             idx = graph.nodes.index(node)
             node = graph.nodes[idx]
-            if(self.node_removed_callback is not None):
+            if self.node_removed_callback is not None:
                 self.node_removed_callback(node)
             for edge in node.in_edges:
                 try:
@@ -239,19 +239,19 @@ class QGraphViz_Core(QWidget):
 
     def removeSubgraph(self, subgraph):
         graph = subgraph.parent_graph
-        if(subgraph in graph.subgraphs):
+        if subgraph in graph.subgraphs:
             idx = graph.subgraphs.index(subgraph)
             subgraph = graph.subgraphs[idx]
-            if(self.node_removed_callback is not None):
+            if self.node_removed_callback is not None:
                 self.node_removed_callback(subgraph)
             del graph.subgraphs[idx]
             self.repaint()
 
     def removeEdge(self, edge):
-        if(edge in self.engine.graph.edges):
+        if edge in self.engine.graph.edges:
             source = edge.source
             dest = edge.dest
-            if(self.edge_removed_callback is not None):
+            if self.edge_removed_callback is not None:
                 self.edge_removed_callback(edge)
 
             idx = source.out_edges.index(edge)
@@ -282,7 +282,7 @@ class QGraphViz_Core(QWidget):
 
     def save(self, filename):
         #BUGFIX : unhilight node before saving
-        if(self.hovered_Node is not None):
+        if self.hovered_Node is not None:
             self.hovered_Node.kwargs["width"] = self.hovered_Node_Back_width
             self.hovered_Node = None
 
@@ -298,8 +298,7 @@ class QGraphViz_Core(QWidget):
     def findSubNode(self, graph, x, y):
         for node in graph.nodes:
             gpos=node.global_pos
-            if(
-                type(node)==Graph and
+            if( isinstance(node, Graph) and
                 gpos[0]-node.size[0]/2<x and gpos[0]+node.size[0]/2>x and
                 gpos[1]-node.size[1]/2<y and gpos[1]+node.size[1]/2>y
 
@@ -320,11 +319,11 @@ class QGraphViz_Core(QWidget):
     def isEdgeHovered(self, graph, i, e, x, y):
         nb_next=0
         for j in range(i, len(graph.edges)):
-            if(graph.edges[j].source==e.source and graph.edges[j].dest==e.dest):
+            if graph.edges[j].source==e.source and graph.edges[j].dest==e.dest:
                 nb_next+=1
 
         offset=[0,0]
-        if(nb_next%2==1):
+        if nb_next%2==1:
             offset[0]=20*(nb_next/2)
         else:
             offset[0]=-20*(nb_next/2)
@@ -344,15 +343,15 @@ class QGraphViz_Core(QWidget):
             y2 = y-sy 
             dx = (ex-sx)
             dy = (ey-sy)
-            if(dx == 0):
-                if(abs(x2)<self.min_cursor_edge_dist):
+            if dx == 0:
+                if abs(x2)<self.min_cursor_edge_dist:
                     return True
-            elif(dy == 0):
-                if(abs(y2)<self.min_cursor_edge_dist):
+            elif dy == 0:
+                if abs(y2)<self.min_cursor_edge_dist:
                     return True
             else:
                 a = -dy/dx
-                if(abs(a*x2+y2)/math.sqrt(a**2)<self.min_cursor_edge_dist):
+                if abs(a*x2+y2)/math.sqrt(a**2)<self.min_cursor_edge_dist:
                     return True
         return False
                     
@@ -360,7 +359,7 @@ class QGraphViz_Core(QWidget):
         """Finds a node by position
         """
         for n in reversed(graph.nodes):
-            if(self.isNodeHovered(n, x, y)):
+            if self.isNodeHovered(n, x, y):
                 return n
         return None
 
@@ -368,7 +367,7 @@ class QGraphViz_Core(QWidget):
         """Finds an edge by position
         """
         for i,e in enumerate(reversed(graph.edges)):
-            if(self.isEdgeHovered(graph, i, e, x, y)):
+            if self.isEdgeHovered(graph, i, e, x, y):
                 return e,i
         return None,0
 
@@ -382,12 +381,12 @@ class QGraphViz_Core(QWidget):
         y = event.y()
         n = self.findNode(self.engine.graph, x,y)
         if n is not None:
-            if(self.node_invoked_callback is not None):
+            if self.node_invoked_callback is not None:
                 self.node_invoked_callback(n)
         else:
             e,_ = self.findEdge(self.engine.graph, x, y)
             if e is not None:
-                if(self.edge_invoked_callback is not None):
+                if self.edge_invoked_callback is not None:
                     self.edge_invoked_callback(e)
 
         QWidget.mouseDoubleClickEvent(self, event)
@@ -402,7 +401,7 @@ class QGraphViz_Core(QWidget):
             n = self.findNode(self.engine.graph, x, y)
             self.selected_Node = n 
 
-            if(n is None):
+            if n is None:
                 n = self.findSubNode(self.engine.graph, x,y)
                 self.selected_Node = n                
 
@@ -416,16 +415,16 @@ class QGraphViz_Core(QWidget):
 
         self.mouse_down=False
 
-        if(self.hovered_Node is not None):
+        if self.hovered_Node is not None:
             self.hovered_Node.kwargs["width"] = self.hovered_Node_Back_width
             self.hovered_Node = None
         
-        if(self.hovered_Edge is not None):
+        if self.hovered_Edge is not None:
             self.hovered_Edge.kwargs["width"] = self.hovered_Edge_Back_width
             self.hovered_Edge = None
 
         self.update()
-        if(event!=None):
+        if event is not None:
             event.accept()
         
 
@@ -433,7 +432,7 @@ class QGraphViz_Core(QWidget):
         if self.selected_Node is not None and self.mouse_down:
             x = event.x()
             y = event.y()
-            if(self.manipulation_mode==QGraphVizManipulationMode.Nodes_Move_Mode):
+            if self.manipulation_mode==QGraphVizManipulationMode.Nodes_Move_Mode:
                 self.selected_Node.pos[0] += x-self.current_pos[0]
                 self.selected_Node.pos[1] += y-self.current_pos[1]
 
@@ -442,10 +441,10 @@ class QGraphViz_Core(QWidget):
         else:
             x = event.x()
             y = event.y()
-            if(self.hilight_Nodes):
-                if(self.hovered_Node is None):
+            if self.hilight_Nodes:
+                if self.hovered_Node is None:
                     self.hovered_Node = self.findNode(self.engine.graph, x, y)
-                    if(self.hovered_Node is not None):
+                    if self.hovered_Node is not None:
                         if "width" in list(self.hovered_Node.kwargs.keys()):
                             self.hovered_Node_Back_width=self.hovered_Node.kwargs["width"]
                         else:
@@ -457,10 +456,10 @@ class QGraphViz_Core(QWidget):
                         self.hovered_Node.kwargs["width"] = self.hovered_Node_Back_width
                         self.hovered_Node = None
                         self.update()
-            if(self.hilight_Edges):
-                if(self.hovered_Edge is None):
+            if self.hilight_Edges:
+                if self.hovered_Edge is None:
                     self.hovered_Edge, self.hovered_Edge_id = self.findEdge(self.engine.graph, x, y)
-                    if(self.hovered_Edge is not None):
+                    if self.hovered_Edge is not None:
                         if "width" in list(self.hovered_Edge.kwargs.keys()):
                             self.hovered_Edge_Back_width=self.hovered_Edge.kwargs["width"]
                         else:
@@ -486,69 +485,69 @@ class QGraphViz_Core(QWidget):
         else:
             e = None
         # Manipulating nodes
-        if(self.manipulation_mode==QGraphVizManipulationMode.Nodes_Move_Mode):
+        if self.manipulation_mode==QGraphVizManipulationMode.Nodes_Move_Mode:
             if self.selected_Node is not None and self.mouse_down:
                 selected_Node = self.selected_Node
                 s = self.findSubNode(self.engine.graph, x,y)
-                if(s is not None and s!=selected_Node):
-                    if(type(selected_Node)==Node):
+                if s is not None and s!=selected_Node:
+                    if (isinstance(selected_Node, Node)):
                         del selected_Node.parent_graph.nodes[selected_Node.parent_graph.nodes.index(selected_Node)]
                         s.nodes.append(selected_Node)
                         selected_Node.parent_graph = s
-                    if(type(selected_Node)==Graph):
+                    if (isinstance(selected_Node, Graph)):
                         del selected_Node.parent_graph.nodes[selected_Node.parent_graph.nodes.index(selected_Node)]
                         s.nodes.append(selected_Node)
                         selected_Node.parent_graph = s
-                        if(self.auto_freeze):
+                        if self.auto_freeze:
                             self.freeze()
-                if(self.auto_freeze):
+                if self.auto_freeze:
                     self.freeze()
                 self.build()
                 self.repaint()
         # Connecting edges
-        if(self.manipulation_mode==QGraphVizManipulationMode.Edges_Connect_Mode):
+        if self.manipulation_mode==QGraphVizManipulationMode.Edges_Connect_Mode:
             if self.selected_Node is not None and self.mouse_down:
                 selected_Node = self.selected_Node
                 d = n if n is not None else s
-                if(d!=selected_Node and d is not None):
+                if d!=selected_Node and d is not None:
                     add_the_edge=True
-                    if(self.new_edge_beingAdded_callback is not None):
+                    if self.new_edge_beingAdded_callback is not None:
                         add_the_edge, kwargs=self.new_edge_beingAdded_callback(selected_Node, d)
                     else:
                         kwargs={}
                     if add_the_edge:
                         edge = self.addEdge(selected_Node, d, kwargs)
-                        if(self.new_edge_created_callback is not None):
+                        if self.new_edge_created_callback is not None:
                             self.new_edge_created_callback(edge)
                         self.build()
                 self.selected_Node = None
         # Removing node
-        elif(self.manipulation_mode==QGraphVizManipulationMode.Node_remove_Mode):
-            if(n is not None):
+        elif self.manipulation_mode==QGraphVizManipulationMode.Node_remove_Mode:
+            if n is not None:
                 self.removeNode(n)
                 self.build()
                 self.repaint()
 
         #Removing edge
-        elif(self.manipulation_mode==QGraphVizManipulationMode.Edge_remove_Mode):
-            if(e is not None):
+        elif self.manipulation_mode==QGraphVizManipulationMode.Edge_remove_Mode:
+            if e is not None:
                 self.removeEdge(e)
                 self.build()
                 self.repaint()
         # Remiving Subgraph
-        elif(self.manipulation_mode==QGraphVizManipulationMode.Subgraph_remove_Mode):
-            if(s is not None):
+        elif self.manipulation_mode==QGraphVizManipulationMode.Subgraph_remove_Mode:
+            if s is not None:
                 self.removeSubgraph(s)
                 self.build()
                 self.repaint()
 
         # Inform application
-        if(n is not None):
-            if(self.node_selected_callback is not None):
+        if n is not None:
+            if self.node_selected_callback is not None:
                 self.node_selected_callback(n)
 
-        if( e is not None):
-            if(self.edge_selected_callback is not None):
+        if  e is not None:
+            if self.edge_selected_callback is not None:
                 self.edge_selected_callback(e)
 
         self.updateSize()
@@ -558,13 +557,13 @@ class QGraphViz_Core(QWidget):
 
     # ============= Painting section ===============
     def paintSubgraph(self, subgraph, painter, pen, brush):
-        if("color" in subgraph.kwargs.keys()):
+        if "color" in subgraph.kwargs.keys():
             pen.setColor(QColor(subgraph.kwargs["color"]))
         else:
             pen.setColor(QColor("black"))
 
-        if("fillcolor" in subgraph.kwargs.keys()):
-            if(":" in subgraph.kwargs["fillcolor"]):
+        if "fillcolor" in subgraph.kwargs.keys():
+            if ":" in subgraph.kwargs["fillcolor"]:
                 gradient=QLinearGradient(subgraph.pos[0]-subgraph.size[0]/2, subgraph.pos[1], subgraph.pos[0]+subgraph.size[0]/2, subgraph.pos[1])
                 c=subgraph.kwargs["fillcolor"].split(":")
                 for i, col in enumerate(c):
@@ -577,7 +576,7 @@ class QGraphViz_Core(QWidget):
         else:
             brush=QBrush(QColor("white"))
 
-        if("width" in subgraph.kwargs.keys()):
+        if "width" in subgraph.kwargs.keys():
             pen.setWidth(int(subgraph.kwargs["width"]))
         else:
             pen.setWidth(1)
@@ -591,7 +590,7 @@ class QGraphViz_Core(QWidget):
                     int(gpos[1]-subgraph.size[1]/2),
                     subgraph.size[0], subgraph.size[1])
 
-        if("label" in subgraph.kwargs.keys()):
+        if "label" in subgraph.kwargs.keys():
             painter.drawText(
                 int(gpos[0]-subgraph.size[0]/2),
                 int(gpos[1]-subgraph.size[1]/2),
@@ -605,24 +604,24 @@ class QGraphViz_Core(QWidget):
 
 
         for i,edge in enumerate(graph.edges):
-            if("color" in edge.kwargs.keys()):
+            if "color" in edge.kwargs.keys():
                 pen.setColor(QColor(edge.kwargs["color"]))
             else:
                 pen.setColor(QColor("black"))
 
-            if("width" in edge.kwargs.keys()):
+            if "width" in edge.kwargs.keys():
                 pen.setWidth(int(edge.kwargs["width"]))
             else:
                 pen.setWidth(1)
 
             painter.setPen(pen)
             painter.setBrush(brush)
-            if(edge.source.parent_graph !=graph and not self.show_subgraphs):
+            if edge.source.parent_graph !=graph and not self.show_subgraphs:
                 gspos = edge.source.parent_graph.global_pos
             else:
                 gspos = edge.source.global_pos
 
-            if(edge.dest.parent_graph !=graph and not self.show_subgraphs):
+            if edge.dest.parent_graph !=graph and not self.show_subgraphs:
                 gdpos = edge.dest.parent_graph.global_pos
                 gdsize = edge.dest.parent_graph.size
             else:
@@ -631,11 +630,11 @@ class QGraphViz_Core(QWidget):
 
             nb_next=0
             for j in range(i, len(graph.edges)):
-                if(graph.edges[j].source==edge.source and graph.edges[j].dest==edge.dest):
+                if graph.edges[j].source==edge.source and graph.edges[j].dest==edge.dest:
                     nb_next+=1
 
             offset=[0,0]
-            if(nb_next%2==1):
+            if nb_next%2==1:
                 offset[0]=20*(nb_next/2)
             else:
                 offset[0]=-20*(nb_next/2)
@@ -664,14 +663,14 @@ class QGraphViz_Core(QWidget):
 
          # TODO : add more painting parameters
         for node in graph.nodes:
-            if type(node)!=Graph:
-                if("color" in node.kwargs.keys()):
+            if not isinstance(node, Graph):
+                if "color" in node.kwargs.keys():
                     pen.setColor(QColor(node.kwargs["color"]))
                 else:
                     pen.setColor(QColor("black"))
 
-                if("fillcolor" in node.kwargs.keys()):
-                    if(":" in node.kwargs["fillcolor"]):
+                if "fillcolor" in node.kwargs.keys():
+                    if ":" in node.kwargs["fillcolor"]:
                         gradient=QLinearGradient(node.pos[0]-node.size[0]/2, node.pos[1], node.pos[0]+node.size[0]/2, node.pos[1])
                         c=node.kwargs["fillcolor"].split(":")
                         for i, col in enumerate(c):
@@ -684,7 +683,7 @@ class QGraphViz_Core(QWidget):
                 else:
                     brush=QBrush(QColor("white"))
 
-                if("width" in node.kwargs.keys()):
+                if "width" in node.kwargs.keys():
                     pen.setWidth(int(node.kwargs["width"]))
                 else:
                     pen.setWidth(1)
@@ -693,19 +692,19 @@ class QGraphViz_Core(QWidget):
 
                 painter.setPen(pen)
                 painter.setBrush(brush)
-                if("shape" in node.kwargs.keys()):
-                    if(node.kwargs["shape"]=="box"):
+                if "shape" in node.kwargs.keys():
+                    if node.kwargs["shape"]=="box":
                         painter.drawRect(
                                     int(gpos[0]-node.size[0]/2),
                                     int(gpos[1]-node.size[1]/2),
                                     node.size[0], node.size[1])
 
-                    elif(node.kwargs["shape"]=="circle"):
+                    elif node.kwargs["shape"]=="circle":
                         painter.drawEllipse(
                                     int(gpos[0]-node.size[0]/2),
                                     int(gpos[1]-node.size[1]/2),
                                     node.size[0], node.size[1])
-                    elif(node.kwargs["shape"]=="triangle"):
+                    elif node.kwargs["shape"]=="triangle":
                         rect = QRect(int(gpos[0]-node.size[0]/2), int(gpos[1]-2*node.size[1]/3), node.size[0], node.size[1])
 
                         path = QPainterPath()
@@ -716,7 +715,7 @@ class QGraphViz_Core(QWidget):
 
                         painter.fillPath(path, brush)
                         painter.drawPath(path)
-                    elif(node.kwargs["shape"]=="polygon"):
+                    elif node.kwargs["shape"]=="polygon":
                         rect = QRect(int(gpos[0]-node.size[0]/2), int(gpos[1]-node.size[1]/2), node.size[0], node.size[1])
 
                         path = QPainterPath()
@@ -730,7 +729,7 @@ class QGraphViz_Core(QWidget):
  
                         painter.fillPath(path, brush)
                         painter.drawPath(path)
-                    elif(node.kwargs["shape"]=="diamond"):
+                    elif node.kwargs["shape"]=="diamond":
                         rect = QRect(int(gpos[0]-node.size[0]/2), int(gpos[1]-node.size[1]/2), node.size[0], node.size[1])
 
                         path = QPainterPath()
@@ -751,25 +750,25 @@ class QGraphViz_Core(QWidget):
                         image = None
                         width = 0
                         height = 0
-                        if("," in node.kwargs["shape"]): # if there is a , in the shape, the first part is the path, then width, then height
+                        if "," in node.kwargs["shape"]: # if there is a , in the shape, the first part is the path, then width, then height
                             img_params = node.kwargs["shape"].split(",")
                             if len(img_params)==3:# img:width:height
                                 img_path = img_params[0]
                                 width =  int(img_params[1])
                                 height =  int(img_params[2])
                                 img_path2 = os.path.join(os.path.dirname(self.engine.current_path),img_path)
-                                if(os.path.isfile(img_path)):
+                                if os.path.isfile(img_path):
                                     image = QImage(img_path)
-                                elif(os.path.isfile(img_path2)):
+                                elif os.path.isfile(img_path2):
                                     image = QImage(img_path2)
                         else:
                             img_path = node.kwargs["shape"]
                             img_path2 = os.path.join(os.path.dirname(self.engine.current_path),img_path)
-                            if(os.path.isfile(img_path)):
+                            if os.path.isfile(img_path):
                                 image = QImage(img_path)
                                 width =  image.size().width()
                                 height =  image.size().height()
-                            elif(os.path.isfile(img_path2)):
+                            elif os.path.isfile(img_path2):
                                 image = QImage(img_path2)
                                 width =  image.size().width()
                                 height =  image.size().height()
@@ -795,12 +794,12 @@ class QGraphViz_Core(QWidget):
                                 node.size[0], node.size[1])
 
 
-                if("label" in node.kwargs.keys()):
+                if "label" in node.kwargs.keys():
                     txt = node.kwargs["label"].split("\n")
                     width = 0
                     height = 0
                     for t in txt:
-                        if(t==""):
+                        if t=="":
                             t="A"
                         rect = self.engine.fm.boundingRect(t)
                         width=rect.width() if rect.width()>width else width
@@ -816,12 +815,12 @@ class QGraphViz_Core(QWidget):
             else:
                 subgraph = node
                 self.paintSubgraph(subgraph, painter, pen, brush)
-                if(self.show_subgraphs):
+                if self.show_subgraphs:
                     self.paintGraph(subgraph, painter)
         """
-        if(self.show_subgraphs):
+        if self.show_subgraphs:
             for subgraph in graph.nodes:
-                if type(subgraph)==Graph:
+                if isinstance(subgraph, Graph):
                     self.paintSubgraph(subgraph, painter, pen, brush)    
                     self.paintGraph(subgraph, painter)     
         """           
@@ -901,10 +900,10 @@ class QGraphViz_Core(QWidget):
         h=y+h
         self.setMinimumWidth(w)
         self.setMinimumHeight(h)
-        if(self.parent is not None):
-            if(self.minimumWidth()<self.parent().width()):
+        if self.parent is not None:
+            if self.minimumWidth()<self.parent().width():
                 self.setMinimumWidth(self.parent().width())
-            if(self.minimumHeight()<self.parent().height()):
+            if self.minimumHeight()<self.parent().height():
                 self.setMinimumHeight(self.parent().height())
 
 class QGraphViz(QScrollArea):
@@ -1064,7 +1063,7 @@ class QGraphViz(QScrollArea):
     # ===== events
     def resizeEvent(self, event):
         self.core.updateSize()
-        if(self.core.minimumWidth()<self.width()):
+        if self.core.minimumWidth()<self.width():
             self.core.setMinimumWidth(self.width())
-        if(self.core.minimumHeight()<self.height()):
+        if self.core.minimumHeight()<self.height():
             self.core.setMinimumHeight(self.height())

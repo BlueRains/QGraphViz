@@ -25,13 +25,13 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     # Events
     def node_selected(node):
-        if(qgv.manipulation_mode==QGraphVizManipulationMode.Node_remove_Mode):
+        if qgv.manipulation_mode==QGraphVizManipulationMode.Node_remove_Mode:
             print("Node {} removed".format(node))
         else:
             print("Node selected {}".format(node))
 
     def edge_selected(edge):
-        if(qgv.manipulation_mode==QGraphVizManipulationMode.Edge_remove_Mode):
+        if qgv.manipulation_mode==QGraphVizManipulationMode.Edge_remove_Mode:
             print("Edge {} removed".format(edge))
         else:
             print("Edge selected {}".format(edge))
@@ -114,11 +114,11 @@ if __name__ == "__main__":
 
     def save():
         fname = QFileDialog.getSaveFileName(qgv, "Save", "", "*.json")
-        if(fname[0]!=""):
+        if fname[0]!="":
             qgv.saveAsJson(fname[0])
 
         #fname = QFileDialog.getSaveFileName(qgv, "Save", "", "*.gv")
-        #if(fname[0]!=""):
+        #if fname[0]!="":
         #    qgv.save(fname[0])
         
     def new():
@@ -128,11 +128,11 @@ if __name__ == "__main__":
 
     def load():
         fname = QFileDialog.getOpenFileName(qgv, "Open", "", "*.json")
-        if(fname[0]!=""):
+        if fname[0]!="":
             qgv.loadAJson(fname[0])
 
         #fname = QFileDialog.getOpenFileName(qgv, "Open", "", "*.gv")
-        #if(fname[0]!=""):
+        #if fname[0]!="":
         #    qgv.load_file(fname[0])
 
     def add_node():
@@ -175,7 +175,7 @@ if __name__ == "__main__":
             dlg.OK=True
             dlg.node_name = leNodeName.text()
             dlg.node_label = leNodeLabel.text()
-            if(leImagePath.text()): 
+            if leImagePath.text(): 
                 dlg.node_type = leImagePath.text()
             else: 
                 dlg.node_type = cbxNodeType.currentText()
