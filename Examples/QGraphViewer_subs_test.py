@@ -8,17 +8,19 @@ A simple graphviz graphs viewer that enables creating graphs visually,
 manipulate them and save them
 
 """
-from PyQt5.QtWidgets import QFileDialog, QDialog, QApplication, QWidget, QMainWindow, QVBoxLayout, QHBoxLayout, QFormLayout, QComboBox, QPushButton, QInputDialog, QLineEdit, QLabel
+from PyQt5.QtWidgets import QFileDialog, QDialog, QApplication, QWidget, QMainWindow, QVBoxLayout, QHBoxLayout, QFormLayout, QComboBox, QPushButton, QLineEdit, QLabel
 import sys
 import os
-sys.path.insert(1,os.path.dirname(__file__)+"/..")
-print(sys.path)
+
+if not __package__:
+    sys.path.insert(1,os.path.dirname(__file__)+"/../src")
+
 from QGraphViz.QGraphViz import QGraphViz, QGraphVizManipulationMode
 from QGraphViz.DotParser import Graph, GraphType
 from QGraphViz.Engines import Dot
 
 
-from PyQt5.QtGui import QFontMetrics, QFont, QImage
+from PyQt5.QtGui import QFont
 
 if __name__ == "__main__":
     # Create QT application
@@ -143,10 +145,10 @@ if __name__ == "__main__":
         dlg.node_type="None"
         # Layouts
         main_layout = QVBoxLayout()
-        l = QFormLayout()
+        layout = QFormLayout()
         buttons_layout = QHBoxLayout()
 
-        main_layout.addLayout(l)
+        main_layout.addLayout(layout)
         main_layout.addLayout(buttons_layout)
         dlg.setLayout(main_layout)
 
@@ -162,14 +164,14 @@ if __name__ == "__main__":
         pbOK.setText("&OK")
         pbCancel.setText("&Cancel")
 
-        l.setWidget(0, QFormLayout.LabelRole, QLabel("Node Name"))
-        l.setWidget(0, QFormLayout.FieldRole, leNodeName)
-        l.setWidget(1, QFormLayout.LabelRole, QLabel("Node Label"))
-        l.setWidget(1, QFormLayout.FieldRole, leNodeLabel)
-        l.setWidget(2, QFormLayout.LabelRole, QLabel("Node Type"))
-        l.setWidget(2, QFormLayout.FieldRole, cbxNodeType)
-        l.setWidget(3, QFormLayout.LabelRole, QLabel("Node Image"))
-        l.setWidget(3, QFormLayout.FieldRole, leImagePath)
+        layout.setWidget(0, QFormLayout.LabelRole, QLabel("Node Name"))
+        layout.setWidget(0, QFormLayout.FieldRole, leNodeName)
+        layout.setWidget(1, QFormLayout.LabelRole, QLabel("Node Label"))
+        layout.setWidget(1, QFormLayout.FieldRole, leNodeLabel)
+        layout.setWidget(2, QFormLayout.LabelRole, QLabel("Node Type"))
+        layout.setWidget(2, QFormLayout.FieldRole, cbxNodeType)
+        layout.setWidget(3, QFormLayout.LabelRole, QLabel("Node Image"))
+        layout.setWidget(3, QFormLayout.FieldRole, leImagePath)
 
         def ok():
             dlg.OK=True
@@ -224,10 +226,10 @@ if __name__ == "__main__":
         dlg.subgraph_type="None"
         # Layouts
         main_layout = QVBoxLayout()
-        l = QFormLayout()
+        layout = QFormLayout()
         buttons_layout = QHBoxLayout()
 
-        main_layout.addLayout(l)
+        main_layout.addLayout(layout)
         main_layout.addLayout(buttons_layout)
         dlg.setLayout(main_layout)
 
@@ -240,10 +242,10 @@ if __name__ == "__main__":
         pbOK.setText("&OK")
         pbCancel.setText("&Cancel")
 
-        l.setWidget(0, QFormLayout.LabelRole, QLabel("Subgraph Name"))
-        l.setWidget(0, QFormLayout.FieldRole, leSubgraphName)
-        l.setWidget(1, QFormLayout.LabelRole, QLabel("Subgraph Label"))
-        l.setWidget(1, QFormLayout.FieldRole, leSubgraphLabel)
+        layout.setWidget(0, QFormLayout.LabelRole, QLabel("Subgraph Name"))
+        layout.setWidget(0, QFormLayout.FieldRole, leSubgraphName)
+        layout.setWidget(1, QFormLayout.LabelRole, QLabel("Subgraph Label"))
+        layout.setWidget(1, QFormLayout.FieldRole, leSubgraphLabel)
   
         def ok():
             dlg.OK=True

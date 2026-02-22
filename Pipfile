@@ -7,7 +7,7 @@ name = "pypi"
 pyqt5 = "*"
 
 [dev-packages]
-QGraphViz = {path = ".", editable = true, editable_mode="strict"}
+QGraphViz = {path = ".", editable = true}
 ruff = "*"
 pyqt5-stubs = "*"
 

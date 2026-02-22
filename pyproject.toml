@@ -36,9 +36,3 @@ classifiers=[
 Repository = "https://github.com/BlueRains/QGraphViz"
 Issues = "https://github.com/BlueRains/QGraphViz"
 Changelog = "https://github.com/BlueRains/QGraphViz/blob/master/ChangeLog.md"
-
-[tool]
-
-[tool.setuptools]
-
-packages=["QGraphViz"]

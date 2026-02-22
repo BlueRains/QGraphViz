@@ -10,7 +10,6 @@ from QGraphViz.DotParser.Graph import Graph, GraphType
 from QGraphViz.DotParser.Node import Node
 from QGraphViz.DotParser.Edge import Edge
 
-from itertools import groupby
 
 import json
 
@@ -25,13 +24,13 @@ class DotParser():
         """
         Detect if the following is a parameters line
         """
-        l=len(data)
+        length=len(data)
         for (i,c) in enumerate(data):
             if c=="=":
                 return True
             if c=="[":
                 return False
-            if i < l-1:
+            if i < length-1:
                 if data[i:i+2]=="--":
                     return False
                 if data[i:i+2]=="->":
@@ -42,13 +41,13 @@ class DotParser():
         """
         Detects if this is a node line
         """
-        l=len(data)
+        length=len(data)
         for (i,c) in enumerate(data):
             if c=="[":
                 return True
             if c=="}":
                 return False
-            if i < l-1:
+            if i < length-1:
                 if data[i:i+2]=="--":
                     return False
                 if data[i:i+2]=="->":
@@ -59,9 +58,9 @@ class DotParser():
         """
         Detects if this is an edge line
         """ 
-        l=len(data)
+        length=len(data)
         for (i,_) in enumerate(data):
-            if i < l-1:
+            if i < length-1:
                 if data[i:i+2]==connection_sign:
                     return True
         return False
@@ -164,7 +163,7 @@ class DotParser():
                 vals = param.split("=")
                 params[vals[0].strip()] = "=".join(vals[1:]).strip()
             return params, start_idx, end_index
-        except:
+        except ValueError:
             return None, 0, 0
 
 
@@ -254,13 +253,13 @@ class DotParser():
                 connection_sign = "->"
                 print("found dgraph at {}".format(graph_idx))
                 graph=Graph("main_graph",GraphType.DirectedGraph)
-            except:
+            except ValueError:
                 try:
                     graph_idx= data.index("graph")
                     connection_sign = "--"
                     print("found dgraph at {}".format(graph_idx))
                     graph=Graph("main_graph")
-                except:
+                except ValueError:
                     raise Exception("Syntax error")
             data=data[graph_idx+5:]
             start_id=data.index("{")

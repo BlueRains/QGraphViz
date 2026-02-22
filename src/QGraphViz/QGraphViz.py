@@ -6,13 +6,11 @@ Author: Saifeddine ALOUI
 Description:
 Main Class to QGraphViz tool
 """
-from PyQt5.QtWidgets import QApplication, QWidget, QScrollArea, QSizePolicy
+from PyQt5.QtWidgets import QWidget, QScrollArea, QSizePolicy
 from PyQt5.QtGui import QPainter, QPen, QBrush, QColor, QPainterPath, QImage, QLinearGradient, QPolygonF
 from PyQt5.QtCore import Qt, QRect, QPoint, QLineF, QPointF
 import os
-import sys
 import enum
-import datetime
 from QGraphViz.DotParser import DotParser, Node, Edge, Graph, GraphType
 import math
 

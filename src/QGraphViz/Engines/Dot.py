@@ -6,10 +6,9 @@ Author: Saifeddine ALOUI
 Description:
 Dot layout engine implementation
 """
-from PyQt5.QtWidgets import QApplication, QWidget
-from PyQt5.QtGui import QFontMetrics, QFont, QImage
+from PyQt5.QtGui import QFont, QImage
 from QGraphViz.Engines.LayoutEngine import LayoutEngine
-from QGraphViz.DotParser.Graph import Graph, GraphType
+from QGraphViz.DotParser import Graph
 
 # Import os is needed for locating image files
 import os
